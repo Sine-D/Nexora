@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useState, useEffect } from "react";
 import { createTicket, updateTicket } from "./api";
 import { TextField, Button, Paper, Stack } from "@mui/material";

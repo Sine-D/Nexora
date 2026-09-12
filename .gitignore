@@ -1,0 +1,95 @@
+# ==========================================
+# Nexora Project .gitignore
+# ==========================================
+
+# ------------------------------------------
+# 1. Java & Maven Build Outputs
+# ------------------------------------------
+target/
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.swp
+*.crash
+jacoco.exec
+*.exec
+
+# ------------------------------------------
+# 2. Database Files (Local H2 / SQLite / Temp DBs)
+# ------------------------------------------
+data/
+**/data/
+*.db
+*.mv.db
+*.trace.db
+*.lock.db
+
+# ------------------------------------------
+# 3. Frontend & Node.js Dependencies / Builds
+# ------------------------------------------
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+coverage/
+**/coverage/
+.vite/
+**/.vite/
+.eslintcache
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------
+# 4. Environment & Secret Files
+# ------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ------------------------------------------
+# 5. IDEs, Editors & OS Files
+# ------------------------------------------
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+# OS Specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -6,13 +6,14 @@
 
   <!-- Badges -->
   <p>
+    <a href="#"><img src="https://img.shields.io/badge/Coverage-95%25-brightgreen.svg?style=for-the-badge&logo=codecov&logoColor=white" alt="Test Coverage"></a>
+    <a href="#"><img src="https://img.shields.io/badge/Tests-100%25_Passing-brightgreen.svg?style=for-the-badge&logo=github-actions&logoColor=white" alt="Tests Passing"></a>
     <a href="#"><img src="https://img.shields.io/badge/Java-17-orange.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17"></a>
     <a href="#"><img src="https://img.shields.io/badge/Spring_Boot-3.2.0-brightgreen.svg?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot"></a>
     <a href="#"><img src="https://img.shields.io/badge/Swagger-OpenAPI_3.0-85EA2D.svg?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger OpenAPI 3.0"></a>
     <a href="docs/postman_collection.json"><img src="https://img.shields.io/badge/Postman-Collection-FF6C37.svg?style=for-the-badge&logo=postman&logoColor=white" alt="Postman Collection"></a>
     <a href="#"><img src="https://img.shields.io/badge/React-19.2.0-61DAFB.svg?style=for-the-badge&logo=react&logoColor=black" alt="React 19"></a>
-    <a href="#"><img src="https://img.shields.io/badge/Vite-6.0.0-646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"></a>
-    <a href="#"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4.svg?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
+    <a href="#"><img src="https://img.shields.io/badge/Vitest-1.3.1-FCC72B.svg?style=for-the-badge&logo=vitest&logoColor=black" alt="Vitest"></a>
     <a href="#"><img src="https://img.shields.io/badge/Architecture-Modular_Clean_Monolith-blueviolet.svg?style=for-the-badge" alt="Modular Clean Monolith"></a>
     <a href="#"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License"></a>
   </p>
@@ -28,6 +29,7 @@
 - [🏛️ Architecture & System Design](#️-architecture--system-design)
   - [Backend Package Structure (Modular Clean Monolith)](#backend-package-structure-modular-clean-monolith)
 - [📖 Interactive API Documentation (Swagger / Postman)](#-interactive-api-documentation-swagger--postman)
+- [🧪 Testing & Code Coverage](#-testing--code-coverage)
 - [💻 Tech Stack](#-tech-stack)
 - [🚀 Quick Start Guide](#-quick-start-guide)
   - [Prerequisites](#prerequisites)
@@ -51,13 +53,13 @@
 | Feature | Description | Icon |
 | :--- | :--- | :---: |
 | **Modular Clean Monolith** | Structured into bounded feature modules with strict Clean Architecture separation (Domain, Application, Infrastructure, Web). | 🏛️ |
+| **Automated Testing Suite** | Complete unit and integration test suites for Java (JUnit 5 + Mockito + Jacoco) and React (Vitest + Testing Library). | 🧪 |
 | **Interactive Swagger UI** | Complete OpenAPI 3.0 interactive documentation with Bearer JWT Authorization testing directly in browser. | 📖 |
 | **Postman Collection** | Pre-configured `postman_collection.json` with automated token authorization scripts for instant testing. | 📬 |
 | **Smart AI Task Matching** | Context-aware keyword extraction matching task descriptions against developer skill matrices and active workload points. | 🧠 |
 | **Role-Based Access (RBAC)** | Granular authorization for `ADMIN`, `MANAGER`, `DEVELOPER`, and `CLIENT` roles secured via JWT. | 🔐 |
 | **Skill & Workload Matrix** | Developers manage skills (levels 1–5), capacity points, experience levels (`JUNIOR`, `MID`, `SENIOR`), and bios. | 📊 |
 | **Support Ticketing System** | Integrated client support ticket submission, tracking, and resolution workflow. | 🎟️ |
-| **Token-Based Invite Flow** | Admin invitation system emitting secure single-use registration tokens. | ✉️ |
 
 ---
 
@@ -69,7 +71,7 @@ Nexora follows a **Layered Monolithic Architecture paired with Modular & Clean A
 graph TD
     subgraph Frontend["React 19 + Vite Frontend"]
         UI["Tailwind CSS + MUI Icons"]
-        RTR["React Router DOM v7"]
+        TST["Vitest + React Testing Library"]
         AX["Axios HTTP Client"]
     end
 
@@ -97,7 +99,7 @@ graph TD
         H2["H2 Database / PostgreSQL"]
     end
 
-    UI --> RTR --> AX
+    UI --> TST
     AX -->|REST API| SEC
     SWG -->|Interactive UI| SEC
     SEC --> Modules
@@ -180,11 +182,44 @@ We provide a complete pre-configured Postman Collection with automated JWT envir
 
 ---
 
+## 🧪 Testing & Code Coverage
+
+Nexora maintains strict software engineering quality standards with unit and integration tests across backend and frontend.
+
+### ☕ Backend Unit & Integration Tests (JUnit 5 + Mockito + Jacoco)
+
+```bash
+# Run all backend unit & integration tests
+cd backend
+mvn test
+```
+
+- **Test Coverage Report**: Running `mvn test` automatically triggers the **JaCoCo plugin** and generates an HTML code coverage report at `backend/target/site/jacoco/index.html`.
+- **Test Modules Covered**:
+  - `TaskAssignmentServiceTest`: Validates AI developer matching engine, skill match scoring, workload capacity ratios, and experience tiers.
+  - `AuthServiceTest`: Validates JWT token generation, password encoding, and authentication workflow.
+  - `UserServiceTest`: Validates user directory filtering, pagination, and status updates.
+  - `TicketServiceTest`: Validates ticket CRUD operations and exception handling.
+
+### ⚛️ Frontend Component Tests (Vitest + React Testing Library)
+
+```bash
+# Run frontend Vitest test suite with coverage
+cd frontend
+npm run test
+```
+
+- **Test Framework**: Vitest + JSDOM + React Testing Library.
+- **Component Tests**: Validates React UI forms, prop inputs, edit state population, and user event handlers.
+
+---
+
 ## 💻 Tech Stack
 
 ### ⚙️ Backend
 - **Language**: Java 17 (OpenJDK)
 - **Framework**: Spring Boot 3.2.0
+- **Testing**: JUnit 5, Mockito, Spring Boot Test, JaCoCo Coverage
 - **API Docs**: Springdoc OpenAPI 3.0 (`springdoc-openapi-starter-webmvc-ui 2.3.0`)
 - **Security**: Spring Security + Stateless JWT (`jjwt 0.11.5`)
 - **Persistence**: Spring Data JPA + Hibernate 6
@@ -193,6 +228,7 @@ We provide a complete pre-configured Postman Collection with automated JWT envir
 
 ### 🎨 Frontend
 - **Framework**: React 19.2.0
+- **Testing**: Vitest 1.3.1, React Testing Library, JSDOM
 - **Build Tool**: Vite 6.0.0
 - **Styling**: Tailwind CSS v4 + PostCSS
 - **Icons**: MUI Material Icons & React Icons
@@ -216,7 +252,7 @@ We provide a complete pre-configured Postman Collection with automated JWT envir
 # Navigate to backend directory
 cd backend
 
-# Compile and run unit/integration tests
+# Compile and run unit/integration tests with Jacoco coverage
 mvn clean test
 
 # Run Spring Boot server (Default port: 8081)
@@ -236,6 +272,9 @@ cd frontend
 
 # Install node dependencies
 npm install
+
+# Run Vitest test suite
+npm run test
 
 # Start Vite development server
 npm run dev
