@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "Nexora REST API Collection",
+		"description": "Complete Postman API Collection for Nexora Modular Clean Monolith backend including Authentication, Admin Management, AI Task Matching Engine, Developer Workload, and Support Tickets.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Auth & Onboarding",
+			"item": [
+				{
+					"name": "Login (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('jwt_token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@nexora.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login (Manager)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('jwt_token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"manager@nexora.com\",\n  \"password\": \"manager123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login (Developer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('jwt_token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"dev@nexora.com\",\n  \"password\": \"dev123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current Authenticated User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "me"]
+						}
+					}
+				},
+				{
+					"name": "Verify Invite Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/accept-invite?token=SAMPLE_TOKEN_HERE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "accept-invite"],
+							"query": [
+								{ "key": "token", "value": "SAMPLE_TOKEN_HERE" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👤 Admin User Management",
+			"item": [
+				{
+					"name": "List Users (Paginated & Filtered)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/users?page=0&size=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "users"],
+							"query": [
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "20" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Invite New User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sarah Connor\",\n  \"email\": \"sarah@nexora.com\",\n  \"role\": \"DEVELOPER\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/users/invite",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "users", "invite"]
+						}
+					}
+				},
+				{
+					"name": "Update User Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/users/1/status",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "users", "1", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🎯 Manager & AI Task Engine",
+			"item": [
+				{
+					"name": "List Developer Team & Workload",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/manager/developers",
+							"host": ["{{base_url}}"],
+							"path": ["api", "manager", "developers"]
+						}
+					}
+				},
+				{
+					"name": "AI Suggest Assignee for Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Build React dashboard UI with Node.js authentication\",\n  \"description\": \"Integrate Tailwind CSS, JWT verification, and PostgreSQL database queries.\",\n  \"estimatedPoints\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/manager/tasks/suggest",
+							"host": ["{{base_url}}"],
+							"path": ["api", "manager", "tasks", "suggest"]
+						}
+					}
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Implement OAuth2 SSO Login\",\n  \"description\": \"Add Google & GitHub login providers to Spring Security chain.\",\n  \"priority\": \"HIGH\",\n  \"dueDate\": \"2026-10-01\",\n  \"estimatedPoints\": 8,\n  \"assignedToId\": 3\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/manager/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["api", "manager", "tasks"]
+						}
+					}
+				},
+				{
+					"name": "List Manager Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/manager/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["api", "manager", "tasks"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "💻 Developer Workspace",
+			"item": [
+				{
+					"name": "List My Assigned Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/developer/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["api", "developer", "tasks"]
+						}
+					}
+				},
+				{
+					"name": "Get My Profile & Skill Matrix",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/api/developer/profile",
+							"host": ["{{base_url}}"],
+							"path": ["api", "developer", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Profile & Skill Matrix",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Developer User\",\n  \"phone\": \"+1-555-0199\",\n  \"location\": \"San Francisco, CA\",\n  \"bio\": \"Full-Stack Engineer specialized in React, Spring Boot, and AI systems.\",\n  \"experienceLevel\": \"MID\",\n  \"capacityPoints\": 25,\n  \"skills\": [\n    { \"name\": \"React\", \"level\": 5 },\n    { \"name\": \"Spring Boot\", \"level\": 4 },\n    { \"name\": \"Database\", \"level\": 4 }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/developer/profile",
+							"host": ["{{base_url}}"],
+							"path": ["api", "developer", "profile"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🎟️ Support Tickets",
+			"item": [
+				{
+					"name": "List All Support Tickets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"url": {
+							"raw": "{{base_url}}/tickets",
+							"host": ["{{base_url}}"],
+							"path": ["tickets"]
+						}
+					}
+				},
+				{
+					"name": "Create Support Ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Unable to export task report to PDF\",\n  \"description\": \"Clicking the export button in the manager dashboard throws a 500 error.\",\n  \"priority\": \"HIGH\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/tickets",
+							"host": ["{{base_url}}"],
+							"path": ["tickets"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

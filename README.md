@@ -8,6 +8,8 @@
   <p>
     <a href="#"><img src="https://img.shields.io/badge/Java-17-orange.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17"></a>
     <a href="#"><img src="https://img.shields.io/badge/Spring_Boot-3.2.0-brightgreen.svg?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot"></a>
+    <a href="#"><img src="https://img.shields.io/badge/Swagger-OpenAPI_3.0-85EA2D.svg?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger OpenAPI 3.0"></a>
+    <a href="docs/postman_collection.json"><img src="https://img.shields.io/badge/Postman-Collection-FF6C37.svg?style=for-the-badge&logo=postman&logoColor=white" alt="Postman Collection"></a>
     <a href="#"><img src="https://img.shields.io/badge/React-19.2.0-61DAFB.svg?style=for-the-badge&logo=react&logoColor=black" alt="React 19"></a>
     <a href="#"><img src="https://img.shields.io/badge/Vite-6.0.0-646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"></a>
     <a href="#"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4.svg?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS"></a>
@@ -25,6 +27,7 @@
 - [✨ Key Features](#-key-features)
 - [🏛️ Architecture & System Design](#️-architecture--system-design)
   - [Backend Package Structure (Modular Clean Monolith)](#backend-package-structure-modular-clean-monolith)
+- [📖 Interactive API Documentation (Swagger / Postman)](#-interactive-api-documentation-swagger--postman)
 - [💻 Tech Stack](#-tech-stack)
 - [🚀 Quick Start Guide](#-quick-start-guide)
   - [Prerequisites](#prerequisites)
@@ -48,12 +51,13 @@
 | Feature | Description | Icon |
 | :--- | :--- | :---: |
 | **Modular Clean Monolith** | Structured into bounded feature modules with strict Clean Architecture separation (Domain, Application, Infrastructure, Web). | 🏛️ |
+| **Interactive Swagger UI** | Complete OpenAPI 3.0 interactive documentation with Bearer JWT Authorization testing directly in browser. | 📖 |
+| **Postman Collection** | Pre-configured `postman_collection.json` with automated token authorization scripts for instant testing. | 📬 |
 | **Smart AI Task Matching** | Context-aware keyword extraction matching task descriptions against developer skill matrices and active workload points. | 🧠 |
 | **Role-Based Access (RBAC)** | Granular authorization for `ADMIN`, `MANAGER`, `DEVELOPER`, and `CLIENT` roles secured via JWT. | 🔐 |
 | **Skill & Workload Matrix** | Developers manage skills (levels 1–5), capacity points, experience levels (`JUNIOR`, `MID`, `SENIOR`), and bios. | 📊 |
 | **Support Ticketing System** | Integrated client support ticket submission, tracking, and resolution workflow. | 🎟️ |
 | **Token-Based Invite Flow** | Admin invitation system emitting secure single-use registration tokens. | ✉️ |
-| **Interactive Dashboard** | Real-time analytics charts built with Recharts & Tailwind CSS. | 📈 |
 
 ---
 
@@ -71,6 +75,7 @@ graph TD
 
     subgraph Backend["Spring Boot 3.2 Backend (Modular Clean Monolith)"]
         SEC["Core Security / JWT Filter Chain"]
+        SWG["OpenAPI 3.0 / Swagger UI"]
         
         subgraph Modules["Feature Modules"]
             AUTH["Auth Module"]
@@ -94,6 +99,7 @@ graph TD
 
     UI --> RTR --> AX
     AX -->|REST API| SEC
+    SWG -->|Interactive UI| SEC
     SEC --> Modules
     WEB --> APP --> DOM
     APP --> INFRA --> Database
@@ -103,7 +109,8 @@ graph TD
 
 ```
 com.admin
-├── 🛡️ core                             <-- Shared Infrastructure & Security
+├── 🛡️ core                             <-- Shared Infrastructure, Security & Config
+│   ├── config                          (OpenAPIConfig - Swagger UI JWT Authorization)
 │   ├── exception                       (GlobalExceptionHandler, ResourceNotFoundException)
 │   ├── dto                             (PageResponse)
 │   ├── security                        (SecurityConfig, JwtAuthenticationFilter)
@@ -143,11 +150,42 @@ com.admin
 
 ---
 
+## 📖 Interactive API Documentation (Swagger / Postman)
+
+Nexora provides full interactive API testing support out of the box.
+
+### 🌐 1. Swagger UI (OpenAPI 3.0)
+
+When the Spring Boot backend is running, access Swagger UI in your browser:
+
+- **Swagger UI Interactive Page**: [`http://localhost:8081/swagger-ui.html`](http://localhost:8081/swagger-ui.html)
+- **OpenAPI JSON Spec**: [`http://localhost:8081/v3/api-docs`](http://localhost:8081/v3/api-docs)
+
+> 🔐 **Authentication in Swagger**: Click the **Authorize** button at the top right of Swagger UI, enter your JWT token received from `/api/auth/login` (format: `Bearer <your_token>`), and execute any protected endpoint interactively!
+
+---
+
+### 📬 2. Postman Collection File
+
+We provide a complete pre-configured Postman Collection with automated JWT environment scripts.
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run in Postman" width="128">](docs/postman_collection.json)
+
+**How to Import & Use**:
+1. Open **Postman**.
+2. Click **Import** $\rightarrow$ select [`docs/postman_collection.json`](docs/postman_collection.json).
+3. Execute `🔐 Auth & Onboarding` $\rightarrow$ `Login (Admin)` (or Manager/Developer).
+4. The test script automatically saves the `jwt_token` into collection variables!
+5. Test any Admin, Manager, Developer, or Ticket API requests instantly.
+
+---
+
 ## 💻 Tech Stack
 
 ### ⚙️ Backend
 - **Language**: Java 17 (OpenJDK)
 - **Framework**: Spring Boot 3.2.0
+- **API Docs**: Springdoc OpenAPI 3.0 (`springdoc-openapi-starter-webmvc-ui 2.3.0`)
 - **Security**: Spring Security + Stateless JWT (`jjwt 0.11.5`)
 - **Persistence**: Spring Data JPA + Hibernate 6
 - **Database**: H2 Database (Local Dev) / PostgreSQL (Production)
@@ -181,11 +219,12 @@ cd backend
 # Compile and run unit/integration tests
 mvn clean test
 
-# Run Spring Boot server (Default port: 8080)
+# Run Spring Boot server (Default port: 8081)
 mvn spring-boot:run
 ```
 
-> 💡 **H2 Console**: Available locally at `http://localhost:8080/h2` (JDBC URL: `jdbc:h2:file:./data/nexora-db`)
+> 💡 **H2 Console**: Available locally at `http://localhost:8081/h2` (JDBC URL: `jdbc:h2:file:./data/nexora-db`)  
+> 📖 **Swagger UI**: Available locally at `http://localhost:8081/swagger-ui.html`
 
 ---
 

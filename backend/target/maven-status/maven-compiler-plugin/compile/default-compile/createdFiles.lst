@@ -18,6 +18,7 @@ com\admin\core\dto\PageResponse$PageResponseBuilder.class
 com\admin\modules\task\application\dto\SuggestAssigneeRequest.class
 com\admin\modules\auth\application\service\AuthService.class
 com\admin\modules\developer\infrastructure\DeveloperProfileRepository.class
+com\admin\core\config\OpenAPIConfig.class
 com\admin\modules\auth\application\dto\LoginRequest.class
 com\admin\modules\user\domain\Role.class
 com\admin\modules\auth\application\service\JwtService.class
