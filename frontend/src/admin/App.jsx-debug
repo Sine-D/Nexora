@@ -1,0 +1,16 @@
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+
+function AdminApp() {
+  return (
+    <div style={{ color: "white", padding: 50, fontSize: 30 }}>
+      <h1>ADMIN APP LOADED</h1>
+      <Routes>
+        <Route path="login" element={<div>LOGIN PAGE CONTENT</div>} />
+        <Route path="*" element={<div>OTHER PAGE CONTENT</div>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default AdminApp;
