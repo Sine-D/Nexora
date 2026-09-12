@@ -344,5 +344,5 @@ Contributions are welcome! Please feel free to open issues or submit pull reques
 This project is licensed under the [MIT License](LICENSE).
 
 <div align="center">
-  <sub>Built with ❤️ by Nexora Engineering Team</sub>
+  <sub>Built with ❤️ by Sineth Dinsara</sub>
 </div>
