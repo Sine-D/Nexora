@@ -1,0 +1,13 @@
+package com.admin.modules.developer.application.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SkillDto {
+    private String name;
+    private Integer level;
+}
